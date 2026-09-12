@@ -1,0 +1,15 @@
+val = 16;
+count = 3;
+do
+    root = sqrt(val);
+    diff = val - root ** 2;
+    if diff then
+        print(val);
+        print(0)
+    else
+        print(val);
+        print(root)
+    endif;
+    val = val + 4;
+    count = count - 1
+while count

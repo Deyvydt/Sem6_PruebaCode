@@ -1,0 +1,19 @@
+n = 4;
+k = 1;
+sumcubes = 0;
+do
+    cube = k ** 3;
+    sumcubes = sumcubes + cube;
+    k = k + 1
+while n + 1 - k;
+print(sumcubes);
+formula = ((n * (n + 1)) / 2) ** 2;
+print(formula);
+diff = sumcubes - formula;
+if diff then
+    print(0)
+elif sumcubes - 100 then
+    print(50)
+else
+    print(1)
+endif

@@ -1,0 +1,13 @@
+a = 0;
+b = 1;
+steps = 6;
+print(a);
+print(b);
+do
+    next = a + b;
+    print(next);
+    a = b;
+    b = next;
+    steps = steps - 1
+while steps;
+print(b)

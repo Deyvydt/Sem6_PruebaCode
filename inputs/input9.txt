@@ -1,0 +1,19 @@
+state = 1;
+acc = 10;
+do
+    if state - 2 then
+        if state - 3 then
+            acc = acc + 5;
+            state = 2
+        else
+            acc = acc - 7;
+            state = 0
+        endif
+    else
+        acc = acc * 2;
+        state = 3
+    endif;
+    print(acc);
+    print(state)
+while state;
+print(acc)

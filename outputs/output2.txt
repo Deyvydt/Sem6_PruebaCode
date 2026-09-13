@@ -1,0 +1,26 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+PROGRAMA
+n=5
+fact=1
+i=n
+do
+  fact=fact * i
+  i=i - 1
+while i
+print(fact)
+check=sqrt(fact + 24)
+print(check)
+if check - 12 then
+  print(0)
+else
+  print(1)
+endif
+
+Interprete:
+120
+12
+1
+
+=== STDERR ===

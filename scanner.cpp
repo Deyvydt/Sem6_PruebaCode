@@ -55,6 +55,13 @@ Token* Scanner::nextToken() {
         string lexema = input.substr(first, current - first);
         if (lexema=="sqrt") return new Token(Token::SQRT, input, first, current - first);
         else if (lexema=="print") return new Token(Token::PRINT, input, first, current - first);
+        else if (lexema=="if")    return new Token(Token::IF,    input, first, current - first);
+        else if (lexema=="then")  return new Token(Token::THEN,  input, first, current - first);
+        else if (lexema=="elif")  return new Token(Token::ELIF,  input, first, current - first);
+        else if (lexema=="else")  return new Token(Token::ELSE,  input, first, current - first);
+        else if (lexema=="endif") return new Token(Token::ENDIF, input, first, current - first);
+        else if (lexema=="do")    return new Token(Token::DO,    input, first, current - first);
+        else if (lexema=="while") return new Token(Token::WHILE, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores

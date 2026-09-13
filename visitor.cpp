@@ -36,6 +36,18 @@ int PrintStatement::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int Body::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
+int IfStatement::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
+int DoWhileStatement::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +80,12 @@ int PrintVisitor::visit(Program* p) {
     return 0;
 }
 
+void PrintVisitor::sangria() {
+    for (int i = 0; i < nivel; i++) cout << "  ";
+}
+
 int PrintVisitor::visit(PrintStatement* p) {
+    sangria();
     cout << "print(" ;
     p->valor->accept(this);
     cout << ")" << endl;
@@ -76,6 +93,7 @@ int PrintVisitor::visit(PrintStatement* p) {
 }
 
 int PrintVisitor::visit(AssignStatement* p) {
+    sangria();
     cout << p->variable << "=";
     p->valor->accept(this);
     cout << endl; 
@@ -89,6 +107,53 @@ int PrintVisitor::visit(IdExp* p) {
 }
 
 
+
+int PrintVisitor::visit(Body* b) {
+    nivel++;
+    for (Stm* s : b->slist) {
+        s->accept(this);
+    }
+    nivel--;
+    return 0;
+}
+
+int PrintVisitor::visit(IfStatement* stm) {
+    auto itCond = stm->condiciones.begin();
+    auto itBody = stm->cuerpos.begin();
+    bool primero = true;
+
+    while (itCond != stm->condiciones.end() && itBody != stm->cuerpos.end()) {
+        sangria();
+        cout << (primero ? "if " : "elif ");
+        (*itCond)->accept(this);
+        cout << " then" << endl;
+        (*itBody)->accept(this);
+        primero = false;
+        ++itCond;
+        ++itBody;
+    }
+
+    if (stm->elseBody) {
+        sangria();
+        cout << "else" << endl;
+        stm->elseBody->accept(this);
+    }
+
+    sangria();
+    cout << "endif" << endl;
+    return 0;
+}
+
+int PrintVisitor::visit(DoWhileStatement* stm) {
+    sangria();
+    cout << "do" << endl;
+    stm->cuerpo->accept(this);
+    sangria();
+    cout << "while ";
+    stm->condicion->accept(this);
+    cout << endl;
+    return 0;
+}
 
 void PrintVisitor::imprimir(Program* programa){
     if (programa)
@@ -174,4 +239,41 @@ int EVALVisitor::visit(AssignStatement* p) {
 
 int EVALVisitor::visit(IdExp* p) {
     return memoria[p->value];
+}
+
+int EVALVisitor::visit(Body* b) {
+    for (Stm* s : b->slist) {
+        s->accept(this);
+    }
+    return 0;
+}
+
+int EVALVisitor::visit(IfStatement* stm) {
+    auto itCond = stm->condiciones.begin();
+    auto itBody = stm->cuerpos.begin();
+
+    // Se evalua cada condicion en orden; se ejecuta el primer cuerpo cuya
+    // condicion sea distinta de cero y se termina.
+    while (itCond != stm->condiciones.end() && itBody != stm->cuerpos.end()) {
+        if ((*itCond)->accept(this) != 0) {
+            (*itBody)->accept(this);
+            return 0;
+        }
+        ++itCond;
+        ++itBody;
+    }
+
+    // Si ninguna condicion se cumplio, se ejecuta el 'else' (si existe).
+    if (stm->elseBody) {
+        stm->elseBody->accept(this);
+    }
+    return 0;
+}
+
+int EVALVisitor::visit(DoWhileStatement* stm) {
+    // do-while: el cuerpo se ejecuta al menos una vez.
+    do {
+        stm->cuerpo->accept(this);
+    } while (stm->condicion->accept(this) != 0);
+    return 0;
 }

@@ -23,7 +23,11 @@ public:
         ID,      // ID
         IF,
         THEN,
+        ELIF,
+        ELSE,
         ENDIF,
+        DO,
+        WHILE,
         ASSIGN,   
         PRINT,
         SEMICOLON,

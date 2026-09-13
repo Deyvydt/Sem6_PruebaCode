@@ -1,0 +1,23 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+PROGRAMA
+x=5
+y=12
+if x then
+  diff=y - x
+  print(diff)
+endif
+counter=3
+sum=0
+do
+  sum=sum + counter
+  counter=counter - 1
+while counter
+print(sum)
+
+Interprete:
+7
+6
+
+=== STDERR ===

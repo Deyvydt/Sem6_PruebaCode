@@ -1,0 +1,27 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+PROGRAMA
+num=6
+steps=5
+print(num)
+do
+  rem=num - num / 2 * 2
+  if rem then
+    num=num * 3 + 1
+  else
+    num=num / 2
+  endif
+  print(num)
+  steps=steps - 1
+while steps
+
+Interprete:
+6
+3
+10
+5
+16
+8
+
+=== STDERR ===

@@ -1,0 +1,35 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+PROGRAMA
+a=48
+b=18
+do
+  rem=a - a / b * b
+  a=b
+  b=rem
+while b
+gcd=a
+print(gcd)
+if gcd - 6 then
+  print(0)
+elif gcd - 1 then
+  print(gcd * 10)
+else
+  print(1)
+endif
+x=35
+y=14
+do
+  rem=x - x / y * y
+  x=y
+  y=rem
+while y
+print(x)
+
+Interprete:
+6
+60
+7
+
+=== STDERR ===

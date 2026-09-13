@@ -91,6 +91,37 @@ public:
 ;
 
 
+// Body ::= Stm { ';' Stm }*
+class Body {
+public:
+    list<Stm*> slist;
+    Body(){};
+    ~Body(){};
+    int accept(Visitor* visitor);
+};
+
+// if CExp then Body { elif CExp then Body }* [ else Body ] endif
+class IfStatement : public Stm {
+public:
+    list<Exp*>  condiciones;   // condicion del 'if' y de cada 'elif'
+    list<Body*> cuerpos;       // cuerpo correspondiente a cada condicion
+    Body* elseBody;            // nullptr si no hay 'else'
+    int  accept(Visitor* visitor);
+    IfStatement() : elseBody(nullptr) {};
+    ~IfStatement(){};
+};
+
+// do Body while CExp
+class DoWhileStatement : public Stm {
+public:
+    Body* cuerpo;
+    Exp*  condicion;
+    int  accept(Visitor* visitor);
+    DoWhileStatement() : cuerpo(nullptr), condicion(nullptr) {};
+    ~DoWhileStatement(){};
+};
+
+
 class Program {
 public:
     list<Stm*> cuerpo;

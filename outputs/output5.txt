@@ -1,0 +1,27 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+PROGRAMA
+i=3
+total=0
+do
+  j=3
+  rowsum=0
+  do
+    prod=i * j
+    rowsum=rowsum + prod
+    j=j - 1
+  while j
+  print(rowsum)
+  total=total + rowsum
+  i=i - 1
+while i
+print(total)
+
+Interprete:
+18
+12
+6
+36
+
+=== STDERR ===

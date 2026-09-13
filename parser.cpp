@@ -88,10 +88,62 @@ Stm* Parser::parseStm(){
         return stm;
     }
 
+    else if (match(Token::IF))
+    {
+        IfStatement* stm = new IfStatement();
+
+        // if CExp then Body
+        stm->condiciones.push_back(parseCE());
+        if (!match(Token::THEN))
+            throw runtime_error("Error sintactico: se esperaba 'then'");
+        stm->cuerpos.push_back(parseBody());
+
+        // { elif CExp then Body }*
+        while (match(Token::ELIF)) {
+            stm->condiciones.push_back(parseCE());
+            if (!match(Token::THEN))
+                throw runtime_error("Error sintactico: se esperaba 'then' tras 'elif'");
+            stm->cuerpos.push_back(parseBody());
+        }
+
+        // [ else Body ]
+        if (match(Token::ELSE)) {
+            stm->elseBody = parseBody();
+        }
+
+        // endif
+        if (!match(Token::ENDIF))
+            throw runtime_error("Error sintactico: se esperaba 'endif'");
+
+        return stm;
+    }
+    else if (match(Token::DO))
+    {
+        DoWhileStatement* stm = new DoWhileStatement();
+
+        // do Body while CExp
+        stm->cuerpo = parseBody();
+        if (!match(Token::WHILE))
+            throw runtime_error("Error sintactico: se esperaba 'while'");
+        stm->condicion = parseCE();
+
+        return stm;
+    }
+
     else {
         throw runtime_error("Error sintáctico");
     }
     
+}
+
+// Body ::= Stm { ';' Stm }*
+Body* Parser::parseBody() {
+    Body* cuerpo = new Body();
+    cuerpo->slist.push_back(parseStm());
+    while (match(Token::SEMICOLON)) {
+        cuerpo->slist.push_back(parseStm());
+    }
+    return cuerpo;
 }
 
 Exp* Parser::parseCE() {

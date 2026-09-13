@@ -1,0 +1,36 @@
+=== STDOUT ===
+Parseo exitoso
+Codigo:
+PROGRAMA
+code=2
+category=0
+if code - 1 then
+  if code - 2 then
+    if code - 3 then
+      category=99
+    else
+      category=30
+    endif
+  else
+    category=20
+  endif
+else
+  category=10
+endif
+print(category)
+x=0
+if x then
+  print(100)
+elif x + 0 then
+  print(200)
+elif x + 3 then
+  print(300)
+else
+  print(400)
+endif
+
+Interprete:
+20
+300
+
+=== STDERR ===
